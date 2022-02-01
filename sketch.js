@@ -21,11 +21,11 @@ let board = [];
 
 // Loading the image
 function preload() {
-  source = loadImage('mush_original.png');
+  source = loadImage('mushy.png');
 }
 
 function setup() {
-  createCanvas(1920, 1080);
+  createCanvas(600, 600);
   // pixel dimensions of each tiles
   w = width / cols;
   h = height / rows;
