@@ -15,7 +15,8 @@ let tiles = [];
 let cols = 4;
 let rows = 4;
 let w, h;
-
+let help = false;
+let button;
 // Order of tiles
 let board = [];
 
@@ -26,6 +27,12 @@ function preload() {
 
 function setup() {
   createCanvas(400, 400);
+  // add a helper button, when pressed tiles will have be outlined 
+  // in white rectangles if the tiles are in the correct position
+  button = createButton('Help Me');
+  button.position(10, 450);
+  button.mousePressed(helper);
+
   // pixel dimensions of each tiles
   w = width / cols;
   h = height / rows;
@@ -90,16 +97,25 @@ function draw() {
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
       let index = i + j * cols;
+      let boardIndex = j + i * rows;
       let x = i * w;
       let y = j * h;
       let tileIndex = board[index];
       if (tileIndex > -1) {
         let img = tiles[tileIndex].img;
         image(img, x, y, w, h);
+        for (let a = 0; a < board.length - 1; a++) {
+          // if the player wants help, show whether tile is in correct place
+          if (help && boardIndex == tileIndex) {
+            strokeWeight(3);
+            stroke(255, 25);
+            rect(x, y, w, h);
+
+          }
+        }
       }
     }
   }
-
   // Show it as grid
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
@@ -107,6 +123,7 @@ function draw() {
       let y = j * h;
       strokeWeight(2);
       noFill();
+
       rect(x, y, w, h);
     }
   }
@@ -157,4 +174,9 @@ function findBlank() {
   for (let i = 0; i < board.length; i++) {
     if (board[i] == -1) return i;
   }
+}
+
+function helper() {
+  help = true;
+  return help;
 }
